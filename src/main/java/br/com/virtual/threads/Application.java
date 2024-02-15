@@ -1,4 +1,4 @@
-package br.com.virtual.threads.vitual.threads;
+package br.com.virtual.threads;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

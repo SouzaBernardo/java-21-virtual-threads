@@ -1,4 +1,4 @@
-package br.com.virtual.threads.vitual.threads;
+package br.com.virtual.threads;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
