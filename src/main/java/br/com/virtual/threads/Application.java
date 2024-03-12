@@ -2,7 +2,16 @@ package br.com.virtual.threads;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.data.repository.Repository;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collection;
+import java.util.List;
 
 @SpringBootApplication
 public class Application {
@@ -13,19 +22,22 @@ public class Application {
 
 }
 
-sealed interface Loan permits SecuredLoan, UnsecuredLoan {}
+@RestController
+@ResponseBody
+class CustomerController {
 
-record SecuredLoan(int value) implements Loan {}
+	private final CustomerRepository customerRespository;
 
-record UnsecuredLoan() implements Loan {}
+	public CustomerController(CustomerRepository customerRespository) {
+		this.customerRespository = customerRespository;
+	}
 
-class Message {
-	String messageForLoan(Loan loan) {
-		return switch (loan) {
-			case UnsecuredLoan unsecuredLoan -> "";
-			case SecuredLoan (var value) -> "" + value;
-		};
+	@GetMapping("/customers")
+	Collection<Customer> getCustomers() {
+		return customerRespository.findAll();
 	}
 }
+
+interface CustomerRepository extends ListCrudRepository<Customer, Integer> {}
 
 record Customer (@Id Integer id, String name) {}
